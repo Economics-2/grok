@@ -1293,9 +1293,9 @@
                     <div class="prompt">${item.prompt}</div>
                     <div class="buttons">
                         <button class="copy-btn" onclick="copyPrompt('${item.prompt.replace(/'/g, "\\'")}')">Copy Prompt</button>
-                        <a href="https://grok.com/imagine?q=${encodeURIComponent('Generate a short video idea based on this prompt: ' + item.prompt)}" target="_blank">
-                            <button class="generate-btn">Generate with Grok</button>
-                        </a>
+                       <a href="https://grok.com/imagine?v=video&q=${encodeURIComponent('A cinematic video of ' + item.prompt)}" target="_blank">
+    <button class="generate-btn">Generate Video with Grok</button>
+</a>
                     </div>
                 </div>
             `;
