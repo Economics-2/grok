@@ -1,0 +1,714 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>100 Short Video Prompts - Powered by Grok</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+            background-color: #f4f4f4;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+        }
+        .grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 20px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        .card {
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            overflow: hidden;
+            transition: transform 0.2s;
+        }
+        .card:hover {
+            transform: translateY(-5px);
+        }
+        .card img {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+        }
+        .card-content {
+            padding: 15px;
+        }
+        .prompt {
+            font-size: 14px;
+            line-height: 1.4;
+            margin-bottom: 10px;
+            color: #555;
+        }
+        .buttons {
+            display: flex;
+            gap: 10px;
+        }
+        button {
+            padding: 8px 12px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 12px;
+        }
+        .copy-btn {
+            background: #007bff;
+            color: white;
+        }
+        .copy-btn:hover {
+            background: #0056b3;
+        }
+        .generate-btn {
+            background: #28a745;
+            color: white;
+        }
+        .generate-btn:hover {
+            background: #1e7e34;
+        }
+    </style>
+</head>
+<body>
+    <h1>100 Short Video Prompts</h1>
+    <p style="text-align: center; color: #666;">Copy a prompt or generate a video idea with Grok!</p>
+    <div id="grid" class="grid"></div>
+
+    <script>
+        const promptsData = [
+  {
+    "id": 1,
+    "prompt": "A chaotic chef jumping in the underwater.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,underwater",
+    "keywords": "in,the,underwater"
+  },
+  {
+    "id": 2,
+    "prompt": "A calm flower painting in the bedroom.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,bedroom",
+    "keywords": "in,the,bedroom"
+  },
+  {
+    "id": 3,
+    "prompt": "A vibrant writer painting in the castle.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,castle",
+    "keywords": "in,the,castle"
+  },
+  {
+    "id": 4,
+    "prompt": "A ugly photographer running in the underwater.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,underwater",
+    "keywords": "in,the,underwater"
+  },
+  {
+    "id": 5,
+    "prompt": "A chaotic car coding in the bedroom.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,bedroom",
+    "keywords": "in,the,bedroom"
+  },
+  {
+    "id": 6,
+    "prompt": "A tiny fire painting in the field.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,field",
+    "keywords": "in,the,field"
+  },
+  {
+    "id": 7,
+    "prompt": "A dark musician coding in the cafe.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,cafe",
+    "keywords": "in,the,cafe"
+  },
+  {
+    "id": 8,
+    "prompt": "A mysterious flower jumping in the spaceship.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,spaceship",
+    "keywords": "in,the,spaceship"
+  },
+  {
+    "id": 9,
+    "prompt": "A fast teacher dancing in the river.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,river",
+    "keywords": "in,the,river"
+  },
+  {
+    "id": 10,
+    "prompt": "A bright chef laughing in the office.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,office",
+    "keywords": "in,the,office"
+  },
+  {
+    "id": 11,
+    "prompt": "A mysterious elderly cooking in the mountain top.",
+    "image_url": "https://source.unsplash.com/400x300?the,mountain,top",
+    "keywords": "the,mountain,top"
+  },
+  {
+    "id": 12,
+    "prompt": "A beautiful sunset relaxing in the field.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,field",
+    "keywords": "in,the,field"
+  },
+  {
+    "id": 13,
+    "prompt": "A vibrant chef relaxing in the mountain top.",
+    "image_url": "https://source.unsplash.com/400x300?the,mountain,top",
+    "keywords": "the,mountain,top"
+  },
+  {
+    "id": 14,
+    "prompt": "A calm car cooking in the field.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,field",
+    "keywords": "in,the,field"
+  },
+  {
+    "id": 15,
+    "prompt": "A sad artist crying in the mountain top.",
+    "image_url": "https://source.unsplash.com/400x300?the,mountain,top",
+    "keywords": "the,mountain,top"
+  },
+  {
+    "id": 16,
+    "prompt": "A slow baker cooking in the office.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,office",
+    "keywords": "in,the,office"
+  },
+  {
+    "id": 17,
+    "prompt": "A tiny chef meditating in the river.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,river",
+    "keywords": "in,the,river"
+  },
+  {
+    "id": 18,
+    "prompt": "A ugly car jumping in the spaceship.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,spaceship",
+    "keywords": "in,the,spaceship"
+  },
+  {
+    "id": 19,
+    "prompt": "A excited musician crying in the library.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,library",
+    "keywords": "in,the,library"
+  },
+  {
+    "id": 20,
+    "prompt": "A slow snow singing in the bedroom.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,bedroom",
+    "keywords": "in,the,bedroom"
+  },
+  {
+    "id": 21,
+    "prompt": "A slow photographer laughing in the bedroom.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,bedroom",
+    "keywords": "in,the,bedroom"
+  },
+  {
+    "id": 22,
+    "prompt": "A sad sunset jumping in the river.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,river",
+    "keywords": "in,the,river"
+  },
+  {
+    "id": 23,
+    "prompt": "A warm writer running in the gym.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,gym",
+    "keywords": "in,the,gym"
+  },
+  {
+    "id": 24,
+    "prompt": "A huge bird running in the river.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,river",
+    "keywords": "in,the,river"
+  },
+  {
+    "id": 25,
+    "prompt": "A beautiful dog swimming in the kitchen.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,kitchen",
+    "keywords": "in,the,kitchen"
+  },
+  {
+    "id": 26,
+    "prompt": "A dark gardener swimming in the park.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,park",
+    "keywords": "in,the,park"
+  },
+  {
+    "id": 27,
+    "prompt": "A serene writer writing in the pool.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,pool",
+    "keywords": "in,the,pool"
+  },
+  {
+    "id": 28,
+    "prompt": "A fast programmer relaxing in the desert.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,desert",
+    "keywords": "in,the,desert"
+  },
+  {
+    "id": 29,
+    "prompt": "A vibrant engineer reading in the city street.",
+    "image_url": "https://source.unsplash.com/400x300?the,city,street",
+    "keywords": "the,city,street"
+  },
+  {
+    "id": 30,
+    "prompt": "A fast book dancing in the desert.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,desert",
+    "keywords": "in,the,desert"
+  },
+  {
+    "id": 31,
+    "prompt": "A sad city baking in the gym.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,gym",
+    "keywords": "in,the,gym"
+  },
+  {
+    "id": 32,
+    "prompt": "A tiny gardener baking in the pool.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,pool",
+    "keywords": "in,the,pool"
+  },
+  {
+    "id": 33,
+    "prompt": "A serene teacher celebrating in the island.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,island",
+    "keywords": "in,the,island"
+  },
+  {
+    "id": 34,
+    "prompt": "A dark cat hiking in the cafe.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,cafe",
+    "keywords": "in,the,cafe"
+  },
+  {
+    "id": 35,
+    "prompt": "A tiny book painting in the spaceship.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,spaceship",
+    "keywords": "in,the,spaceship"
+  },
+  {
+    "id": 36,
+    "prompt": "A slow sunset relaxing in the park.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,park",
+    "keywords": "in,the,park"
+  },
+  {
+    "id": 37,
+    "prompt": "A peaceful cat jumping in the mountain top.",
+    "image_url": "https://source.unsplash.com/400x300?the,mountain,top",
+    "keywords": "the,mountain,top"
+  },
+  {
+    "id": 38,
+    "prompt": "A happy ocean singing in the pool.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,pool",
+    "keywords": "in,the,pool"
+  },
+  {
+    "id": 39,
+    "prompt": "A mysterious sunset coding in the mountain top.",
+    "image_url": "https://source.unsplash.com/400x300?the,mountain,top",
+    "keywords": "the,mountain,top"
+  },
+  {
+    "id": 40,
+    "prompt": "A chaotic book jumping in the kitchen.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,kitchen",
+    "keywords": "in,the,kitchen"
+  },
+  {
+    "id": 41,
+    "prompt": "A fast snow running in the desert.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,desert",
+    "keywords": "in,the,desert"
+  },
+  {
+    "id": 42,
+    "prompt": "A dark rain cooking in the underwater.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,underwater",
+    "keywords": "in,the,underwater"
+  },
+  {
+    "id": 43,
+    "prompt": "A beautiful baker painting in the desert.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,desert",
+    "keywords": "in,the,desert"
+  },
+  {
+    "id": 44,
+    "prompt": "A mysterious doctor running in the city street.",
+    "image_url": "https://source.unsplash.com/400x300?the,city,street",
+    "keywords": "the,city,street"
+  },
+  {
+    "id": 45,
+    "prompt": "A calm sunset writing in the pool.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,pool",
+    "keywords": "in,the,pool"
+  },
+  {
+    "id": 46,
+    "prompt": "A fast snow relaxing in the castle.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,castle",
+    "keywords": "in,the,castle"
+  },
+  {
+    "id": 47,
+    "prompt": "A calm sunset meditating in the forest.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,forest",
+    "keywords": "in,the,forest"
+  },
+  {
+    "id": 48,
+    "prompt": "A vibrant elderly hiking in the island.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,island",
+    "keywords": "in,the,island"
+  },
+  {
+    "id": 49,
+    "prompt": "A serene rain jumping in the library.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,library",
+    "keywords": "in,the,library"
+  },
+  {
+    "id": 50,
+    "prompt": "A tiny snow swimming in the bedroom.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,bedroom",
+    "keywords": "in,the,bedroom"
+  },
+  {
+    "id": 51,
+    "prompt": "A calm musician jumping in the stage.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,stage",
+    "keywords": "in,the,stage"
+  },
+  {
+    "id": 52,
+    "prompt": "A mysterious rain painting in the island.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,island",
+    "keywords": "in,the,island"
+  },
+  {
+    "id": 53,
+    "prompt": "A excited musician running in the underwater.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,underwater",
+    "keywords": "in,the,underwater"
+  },
+  {
+    "id": 54,
+    "prompt": "A fast book climbing in the desert.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,desert",
+    "keywords": "in,the,desert"
+  },
+  {
+    "id": 55,
+    "prompt": "A huge musician baking in the field.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,field",
+    "keywords": "in,the,field"
+  },
+  {
+    "id": 56,
+    "prompt": "A peaceful doctor writing in the bedroom.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,bedroom",
+    "keywords": "in,the,bedroom"
+  },
+  {
+    "id": 57,
+    "prompt": "A mysterious dancer running in the underwater.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,underwater",
+    "keywords": "in,the,underwater"
+  },
+  {
+    "id": 58,
+    "prompt": "A fast dancer jumping in the gym.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,gym",
+    "keywords": "in,the,gym"
+  },
+  {
+    "id": 59,
+    "prompt": "A happy fire climbing in the kitchen.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,kitchen",
+    "keywords": "in,the,kitchen"
+  },
+  {
+    "id": 60,
+    "prompt": "A serene dancer swimming in the river.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,river",
+    "keywords": "in,the,river"
+  },
+  {
+    "id": 61,
+    "prompt": "A dark elderly running in the river.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,river",
+    "keywords": "in,the,river"
+  },
+  {
+    "id": 62,
+    "prompt": "A cool gardener writing in the office.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,office",
+    "keywords": "in,the,office"
+  },
+  {
+    "id": 63,
+    "prompt": "A happy city dancing in the pool.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,pool",
+    "keywords": "in,the,pool"
+  },
+  {
+    "id": 64,
+    "prompt": "A mysterious athlete studying in the spaceship.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,spaceship",
+    "keywords": "in,the,spaceship"
+  },
+  {
+    "id": 65,
+    "prompt": "A cool sunset hiking in the field.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,field",
+    "keywords": "in,the,field"
+  },
+  {
+    "id": 66,
+    "prompt": "A warm photographer coding in the spaceship.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,spaceship",
+    "keywords": "in,the,spaceship"
+  },
+  {
+    "id": 67,
+    "prompt": "A happy tree singing in the stage.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,stage",
+    "keywords": "in,the,stage"
+  },
+  {
+    "id": 68,
+    "prompt": "A chaotic car running in the beach.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,beach",
+    "keywords": "in,the,beach"
+  },
+  {
+    "id": 69,
+    "prompt": "A beautiful flower swimming in the stage.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,stage",
+    "keywords": "in,the,stage"
+  },
+  {
+    "id": 70,
+    "prompt": "A bright child reading in the forest.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,forest",
+    "keywords": "in,the,forest"
+  },
+  {
+    "id": 71,
+    "prompt": "A fast engineer studying in the library.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,library",
+    "keywords": "in,the,library"
+  },
+  {
+    "id": 72,
+    "prompt": "A energetic car running in the river.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,river",
+    "keywords": "in,the,river"
+  },
+  {
+    "id": 73,
+    "prompt": "A dark fire painting in the castle.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,castle",
+    "keywords": "in,the,castle"
+  },
+  {
+    "id": 74,
+    "prompt": "A huge photographer hiking in the mountain top.",
+    "image_url": "https://source.unsplash.com/400x300?the,mountain,top",
+    "keywords": "the,mountain,top"
+  },
+  {
+    "id": 75,
+    "prompt": "A serene photographer jumping in the stage.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,stage",
+    "keywords": "in,the,stage"
+  },
+  {
+    "id": 76,
+    "prompt": "A vibrant rain celebrating in the forest.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,forest",
+    "keywords": "in,the,forest"
+  },
+  {
+    "id": 77,
+    "prompt": "A fast dog jumping in the beach.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,beach",
+    "keywords": "in,the,beach"
+  },
+  {
+    "id": 78,
+    "prompt": "A ugly child meditating in the underwater.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,underwater",
+    "keywords": "in,the,underwater"
+  },
+  {
+    "id": 79,
+    "prompt": "A ugly athlete painting in the kitchen.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,kitchen",
+    "keywords": "in,the,kitchen"
+  },
+  {
+    "id": 80,
+    "prompt": "A chaotic programmer swimming in the library.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,library",
+    "keywords": "in,the,library"
+  },
+  {
+    "id": 81,
+    "prompt": "A happy coffee celebrating in the pool.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,pool",
+    "keywords": "in,the,pool"
+  },
+  {
+    "id": 82,
+    "prompt": "A warm tree meditating in the bedroom.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,bedroom",
+    "keywords": "in,the,bedroom"
+  },
+  {
+    "id": 83,
+    "prompt": "A sad rain singing in the field.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,field",
+    "keywords": "in,the,field"
+  },
+  {
+    "id": 84,
+    "prompt": "A bright tree painting in the mountain top.",
+    "image_url": "https://source.unsplash.com/400x300?the,mountain,top",
+    "keywords": "the,mountain,top"
+  },
+  {
+    "id": 85,
+    "prompt": "A peaceful child celebrating in the park.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,park",
+    "keywords": "in,the,park"
+  },
+  {
+    "id": 86,
+    "prompt": "A chaotic rain reading in the field.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,field",
+    "keywords": "in,the,field"
+  },
+  {
+    "id": 87,
+    "prompt": "A vibrant coffee painting in the beach.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,beach",
+    "keywords": "in,the,beach"
+  },
+  {
+    "id": 88,
+    "prompt": "A dark sunset climbing in the cafe.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,cafe",
+    "keywords": "in,the,cafe"
+  },
+  {
+    "id": 89,
+    "prompt": "A bright photographer meditating in the library.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,library",
+    "keywords": "in,the,library"
+  },
+  {
+    "id": 90,
+    "prompt": "A serene doctor coding in the desert.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,desert",
+    "keywords": "in,the,desert"
+  },
+  {
+    "id": 91,
+    "prompt": "A peaceful coffee singing in the island.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,island",
+    "keywords": "in,the,island"
+  },
+  {
+    "id": 92,
+    "prompt": "A slow dog painting in the city street.",
+    "image_url": "https://source.unsplash.com/400x300?the,city,street",
+    "keywords": "the,city,street"
+  },
+  {
+    "id": 93,
+    "prompt": "A sad rain reading in the underwater.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,underwater",
+    "keywords": "in,the,underwater"
+  },
+  {
+    "id": 94,
+    "prompt": "A peaceful snow swimming in the gym.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,gym",
+    "keywords": "in,the,gym"
+  },
+  {
+    "id": 95,
+    "prompt": "A tiny cat meditating in the kitchen.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,kitchen",
+    "keywords": "in,the,kitchen"
+  },
+  {
+    "id": 96,
+    "prompt": "A serene coffee baking in the underwater.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,underwater",
+    "keywords": "in,the,underwater"
+  },
+  {
+    "id": 97,
+    "prompt": "A peaceful programmer laughing in the castle.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,castle",
+    "keywords": "in,the,castle"
+  },
+  {
+    "id": 98,
+    "prompt": "A dark city meditating in the spaceship.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,spaceship",
+    "keywords": "in,the,spaceship"
+  },
+  {
+    "id": 99,
+    "prompt": "A calm writer crying in the bedroom.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,bedroom",
+    "keywords": "in,the,bedroom"
+  },
+  {
+    "id": 100,
+    "prompt": "A warm child baking in the underwater.",
+    "image_url": "https://source.unsplash.com/400x300?in,the,underwater",
+    "keywords": "in,the,underwater"
+  }
+];
+
+        const grid = document.getElementById('grid');
+
+        promptsData.forEach(item => {
+            const card = document.createElement('div');
+            card.className = 'card';
+            card.innerHTML = `
+                <img src="\( {item.image_url}" alt=" \){item.keywords}" loading="lazy">
+                <div class="card-content">
+                    <div class="prompt">${item.prompt}</div>
+                    <div class="buttons">
+                        <button class="copy-btn" onclick="copyPrompt('${item.prompt.replace(/'/g, "\\'")}')">Copy Prompt</button>
+                        <a href="https://grok.x.ai/?q=${encodeURIComponent('Generate a short video idea based on this prompt: ' + item.prompt)}" target="_blank">
+                            <button class="generate-btn">Generate with Grok</button>
+                        </a>
+                    </div>
+                </div>
+            `;
+            grid.appendChild(card);
+        });
+
+        function copyPrompt(prompt) {
+            navigator.clipboard.writeText(prompt).then(() => {
+                alert('Prompt copied to clipboard!');
+            }).catch(err => {
+                console.error('Failed to copy: ', err);
+            });
+        }
+    </script>
+</body>
+</html>
